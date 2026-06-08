@@ -26,7 +26,7 @@ import { UpdateCatalogVersionDto } from './dto/update-catalog-version.dto';
 import { QueryCatalogVersionsDto } from './dto/query-catalog-versions.dto';
 import { CatalogVersionResponseDto } from './dto/catalog-version-response.dto';
 import { QuoteRequestDto } from './dto/quote-request.dto';
-import { QuoteResponseDto } from './dto/quote-response.dto';
+import { QuoteCalculatorResult } from './quote-calculator';
 
 @ApiTags('Pricing Catalogs')
 @ApiBearerAuth()
@@ -92,7 +92,7 @@ export class PricingCatalogController {
   @Roles(UserRole.ADMIN, UserRole.CRAFTSMAN)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Calculate a quote against this exact catalog version' })
-  @ApiResponse({ status: 200, type: QuoteResponseDto })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 400, description: 'Unknown position key, quantity out of range, or undeclared surcharge key' })
   @ApiResponse({ status: 403, description: 'Caller may not access this catalog' })
   @ApiResponse({ status: 404, description: 'Catalog version not found' })
@@ -100,7 +100,7 @@ export class PricingCatalogController {
     @Param('versionId', ParseUUIDPipe) versionId: string,
     @Body() dto: QuoteRequestDto,
     @CurrentUser() user: JwtPayload,
-  ): Promise<QuoteResponseDto> {
+  ): Promise<QuoteCalculatorResult> {
     return this.service.quote(versionId, dto, user);
   }
 
