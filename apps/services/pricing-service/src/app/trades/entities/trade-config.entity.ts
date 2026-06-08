@@ -7,6 +7,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export interface PricingSchemaField {
+  name: string;
+  type: 'string' | 'number' | 'boolean' | 'enum';
+  required: boolean;
+  min?: number;
+  max?: number;
+  allowedValues?: string[];
+  dependsOn?: {
+    field: string;
+    equals: string;
+  };
+}
+
 /**
  * Configuration per trade category. Holds the human-readable label plus any
  * trade-specific schema definitions (currently used for nothing — the
@@ -27,10 +40,9 @@ export class TradeConfig {
   @Column({ name: 'is_active', type: 'boolean', default: true })
   isActive: boolean;
 
-  /**
-   * Free-form metadata bag — future-proofs adding small per-trade config
-   * without a migration.
-   */
+  @Column({ name: 'pricing_schema', type: 'jsonb', nullable: true })
+  pricingSchema: PricingSchemaField[] | null;
+
   @Column({ type: 'jsonb', default: {} })
   metadata: Record<string, unknown>;
 
