@@ -25,11 +25,9 @@ export class CatalogVersion {
   id: string;
 
   @Column({ name: 'craftsman_id', type: 'uuid' })
-  @Index()
   craftsmanId: string;
 
   @Column({ type: 'varchar', length: 32 })
-  @Index()
   trade: string;
 
   @Column({ type: 'varchar', length: 16, default: CatalogVersionStatus.DRAFT })
