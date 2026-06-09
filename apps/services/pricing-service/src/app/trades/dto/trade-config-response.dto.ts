@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TradeConfig } from '../entities/trade-config.entity';
+import { PricingSchemaField, TradeConfig } from '../entities/trade-config.entity';
 
 export class TradeConfigResponseDto {
   @ApiProperty()
@@ -16,6 +16,7 @@ export class TradeConfigResponseDto {
 
   @ApiProperty({ type: Object })
   metadata: Record<string, unknown>;
+  @ApiProperty({ type: [Object], nullable: true }) pricingSchema: PricingSchemaField[] | null;
 
   static from(t: TradeConfig): TradeConfigResponseDto {
     return {
@@ -24,6 +25,7 @@ export class TradeConfigResponseDto {
       displayName: t.displayName,
       isActive: t.isActive,
       metadata: t.metadata,
+      pricingSchema: t.pricingSchema,
     };
   }
 }
