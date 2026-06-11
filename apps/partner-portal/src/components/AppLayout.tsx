@@ -2,6 +2,7 @@ import { AppBar, Box, Button, Stack, Toolbar, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+
 import { useAuth } from '../contexts/AuthContext';
 
 interface AppLayoutProps {
@@ -30,6 +31,16 @@ export function AppLayout({ children }: AppLayoutProps): JSX.Element {
               }}
             >
               {t('nav.profile')}
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/pricing-catalog"
+              sx={{
+                color: 'common.white',
+                textDecoration: location.pathname === '/pricing-catalog' ? 'underline' : 'none',
+              }}
+            >
+              {t('nav.pricing')}
             </Button>
             {user && (
               <Button onClick={logout} sx={{ color: 'common.white' }}>
